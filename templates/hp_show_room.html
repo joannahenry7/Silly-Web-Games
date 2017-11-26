@@ -1,0 +1,122 @@
+$def with (room)
+$var title: Harry Potter Game
+$var cssfiles: None
+
+
+<h1> $room.name </h1>
+
+
+<pre>
+  $room.description
+</pre>
+
+$if room.name == "Failed":
+    <p>
+      You failed to stop Voldemort getting the stone! His imminent return<br>
+      will usher in a new Dark era marked by fear and death.<br>
+      <a href="/">Play again?</a> Or give up and accept your fate?
+    </p>
+$elif room.name == "The End":
+    <p><a href="/">Play Again?</a></p>
+$elif room.name == "Fluffy Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="text" name="action">
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Devil's Snare Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="panic"> PANIC!<br>
+        <input type="radio" name="action" value="fire"> light a fire<br>
+        <input type="radio" name="action" value="calm"> stay calm<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Flying Key Room":
+    <pre> $room.keyspace </pre>
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="00">
+        <input type="radio" name="action" value="01">
+        <input type="radio" name="action" value="02">
+        <input type="radio" name="action" value="03">
+        <input type="radio" name="action" value="04"><br>
+        <input type="radio" name="action" value="10">
+        <input type="radio" name="action" value="11">
+        <input type="radio" name="action" value="12">
+        <input type="radio" name="action" value="13">
+        <input type="radio" name="action" value="14"><br>
+        <input type="radio" name="action" value="20">
+        <input type="radio" name="action" value="21">
+        <input type="radio" name="action" value="22">
+        <input type="radio" name="action" value="23">
+        <input type="radio" name="action" value="24"><br>
+        <input type="radio" name="action" value="30">
+        <input type="radio" name="action" value="31">
+        <input type="radio" name="action" value="32">
+        <input type="radio" name="action" value="33">
+        <input type="radio" name="action" value="34"><br>
+        <input type="radio" name="action" value="40">
+        <input type="radio" name="action" value="41">
+        <input type="radio" name="action" value="42">
+        <input type="radio" name="action" value="43">
+        <input type="radio" name="action" value="44"><br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Chess Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="0">Aim high<br>
+        <input type="radio" name="action" value="1">Aim low<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Troll Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="wingardium leviosa">Cast 'Wingardium Leviosa!'<br>
+        <input type="radio" name="action" value="alohomora">Cast 'Alohomora!'<br>
+        <input type="radio" name="action" value="lumos">Cast 'Lumos!'<br>
+        <input type="radio" name="action" value="throw">Throw things at the troll<br>
+        <input type="radio" name="action" value="yell">Yell at the troll<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Potion Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="1">Bottle 1
+        <input type="radio" name="action" value="2">Bottle 2
+        <input type="radio" name="action" value="3">Bottle 3
+        <input type="radio" name="action" value="4">Bottle 4
+        <input type="radio" name="action" value="5">Bottle 5
+        <input type="radio" name="action" value="6">Bottle 6
+        <input type="radio" name="action" value="7">Bottle 7<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Mirror Room":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="mirror">Look in the Mirror<br>
+        <input type="radio" name="action" value="talk">Get Quirrel talking<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Battle Voldemort!":
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="radio" name="action" value="give up">Give up<br>
+        <input type="radio" name="action" value="keep fighting">Keep fighting<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$else:
+    <p>
+      <form action="/HPGame" method="POST">
+        <input type="submit" value="Go!">
+      </form>
+    </p>
