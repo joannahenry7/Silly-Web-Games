@@ -1,0 +1,80 @@
+$def with (room)
+$var title: Pirate Game
+$var cssfiles: None
+
+
+<h1> $room.name </h1>
+
+
+<pre>
+  $room.description
+</pre>
+
+$if room.name == "Death" or room.name == "The End":
+    <p><a href="/">Play again?</a></p>
+$elif room.name == "Snake Pit":
+    <p>
+      <form action="/PirateGame" method="POST">
+        <input type="radio" name="action" value="panic">PANIC!<br>
+        <input type="radio" name="action" value="calm">Stay calm<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Monster Cave":
+    <p>
+      <form action="/PirateGame" method="POST">
+        <input type="radio" name="action" value="shoot">Shoot the monster<br>
+        <input type="radio" name="action" value="scream">Scream loudly<br>
+        <input type="radio" name="action" value="poke">Poke the monster<br>
+        <input type="radio" name="action" value="play dead">Play dead<br>
+        <input type="radio" name="action" value="tunnel">Go through the tunnel<br><br>
+        <input type="submit" value="Go!">
+      </form>
+    </p>
+$elif room.name == "Spike Cave":
+    $if not room.seelever:
+        <p>
+          <form action="/PirateGame" method="POST">
+            <input type="radio" name="action" value="boulder">Try to move the boulder<br>
+            <input type="radio" name="action" value="look">Look for another exit<br><br>
+            <input type="submit" value="Go!">
+          </form>
+        </p>
+    $else:
+        <p>
+          <form action="/PirateGame" method="POST">
+            <input type="radio" name="action" value="lasso">Try to lasso the lever<br>
+            <input type="radio" name="action" value="give up">Give up<br><br>
+            <input type="submit" value="Go!">
+          </form>
+        </p>
+$elif room.name == "The Bridge":
+    <pre> $room.bridgespace </pre>
+    $if room.count > 4:
+        <p>
+          <form action="/PirateGame" method="POST">
+            <input type="submit" name="action" value="Cross the bridge!">
+          </form>
+        </p>
+    $else:
+        <p>
+          <form action="/PirateGame" method="POST">
+            <input type="radio" name="action" value="0">0
+            <input type="radio" name="action" value="1">1
+            <input type="radio" name="action" value="2">2
+            <input type="radio" name="action" value="3">3
+            <input type="radio" name="action" value="4">4
+            <input type="radio" name="action" value="5">5
+            <input type="radio" name="action" value="6">6
+            <input type="radio" name="action" value="7">7
+            <input type="radio" name="action" value="8">8
+            <input type="radio" name="action" value="9">9<br><br>
+            <input type="submit" value="Go!">
+          </form>
+        </p>
+$else:
+    <p>
+      <form action="/PirateGame" method="POST">
+        <input type="submit" value="Go!">
+      </form>
+    </p>
