@@ -63,12 +63,20 @@ class PirateGame(object):
 
     def GET(self):
         if session.room:
-            return render.hp_show_room(room=session.room)
+            return render.pir_show_room(room=session.room)
         else:
             return render.you_failed()
 
     def POST(self):
-        pass
+        form = web.input(action=None)
+
+        try:
+            path = session.room.machinery(form.action)
+            session.room = session.room.go(path)
+        except:
+            session.room = session.room.go('*')
+
+        web.seeother("/PirateGame")
 
 
 class reset:
