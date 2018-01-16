@@ -159,15 +159,9 @@ class KeyRoom(Room):
 
             # move the key (make sure it doesn't go off the grid)
             h += random.randint(-1,1)
-            while h > 4:
-                h -= 1
-            while h < 0:
-                h += 1
+            h = max(0, min(h, 4))
             w += random.randint(-1,1)
-            while w > 4:
-                w -= 1
-            while w < 0:
-                w += 1
+            w = max(0, min(w, 4))
             # put key in new position and save new position
             self.keys[h][w] = "F"
             self.key = [h, w]
