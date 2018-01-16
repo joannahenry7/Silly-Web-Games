@@ -320,14 +320,14 @@ class PotionRoom(Room):
         self.name = name
         self.description = description
         self.paths = {}
-        self.count = 0
         self.bottles = [1, 2, 3, 4, 5, 6, 7]
-        self.bottle = random.randint(1,7)
+        self.bottle = 0
         self.eliminate = []
         self.keep = []
 
     def machinery(self, response):
-        if self.count == 0:
+        if self.bottle == 0:
+            self.bottle = random.randint(1,7)
             for i in range(7):
                 bottle = self.bottles.pop()
                 if str(bottle) == response or bottle == self.bottle:
@@ -352,7 +352,6 @@ class PotionRoom(Room):
             """ % (self.eliminate[-1], self.eliminate[-2], self.eliminate[-3],
                    self.eliminate[-4], self.eliminate[-5])
 
-            self.count += 1
             return 'continue'
         else:
             if response == str(self.bottle):
