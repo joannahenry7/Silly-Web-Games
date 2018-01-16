@@ -258,7 +258,7 @@ class TrollRoom(Room):
             return 'fail'
         elif response == 'throw':
             self.description += """
-            You and Hermion start throwing anything you can find at the troll.
+            You and Hermione start throwing anything you can find at the troll.
             It doesn't really hurt the troll, but since there are two of you
             it keeps changing its mind about who to go after.
             """
