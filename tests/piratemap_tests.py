@@ -1,6 +1,5 @@
 from nose.tools import *
 from sillywebgames.piratemap import *
-from tests.tools import assert_response
 
 
 def test_snake_pit():
