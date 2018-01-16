@@ -1,8 +1,7 @@
 from nose.tools import *
 from bin.app import app
 from tests.tools import assert_response
-#from sillywebgames.HPmap import *
-from flaky import flaky
+import random
 
 
 # allows you to return to specific session to test progress through game
@@ -39,7 +38,6 @@ def test_index():
     resp5 = app.request('/PirateGame', headers=header1)
     assert_response(resp5, contains='You are an illustrious space pirate')
 
-@flaky(max_runs=10, min_passes=1)
 def test_success_hp():
     # initialize and navigate to Fluffy Room
     data0 = {'game': 'Harry Potter Game'}
@@ -52,8 +50,12 @@ def test_success_hp():
     resp1 = app.request('/HPGame', headers=header)
     assert_response(resp1, contains='Fluffy Room')
 
-    # check song passes -- this test isn't foolproof but should usually pass
-    data = {'action': 'aaabbbcccdddeee'}
+    # check song passes; use random.seed to make sure random sample is predictable
+    notes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    random.seed(0)
+    guess_notes = ''.join(random.sample(notes, 3)) * 3
+    data = {'action': guess_notes}
+    random.seed(0)
     resp2 = app.request('/HPGame', headers=header, method='POST', data=data)
     assert_response(resp2, status='303')
     resp3 = app.request('/HPGame', headers=header)
@@ -76,9 +78,13 @@ def test_success_hp():
     assert_response(resp8, status='303')
     resp9 = app.request('/HPGame', headers=header)
     assert_response(resp9, contains="The key can move in any direction")
-    #key_pos = str(key_room.key[0]) + str(key_room.key[1])
-    data3 = {'action': '00'}
+    random.seed(0)
+    h = random.randint(0,4)
+    w = random.randint(0,4)
+    guess_key = str(h) + str(w)
+    data3 = {'action': guess_key}
+    random.seed(0)
     resp10 = app.request('/HPGame', headers=header, method='POST', data=data3)
     assert_response(resp10, status='303')
     resp11 = app.request('/HPGame', headers=header)
-    assert_response(resp11, contains="Flying Key Room")
+    assert_response(resp11, contains='Chess Room')
