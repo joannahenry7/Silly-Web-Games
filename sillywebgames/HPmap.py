@@ -284,7 +284,6 @@ class TrollRoom(Room):
             fall down, causing him to trip and fall! The troll is very disoriented.
             """
             self.confused = True
-            return 'continue'
         elif response == 'lumos':
             self.description += """
             In a panic, you shout the first spell you can think of: 'LUMOS!'
