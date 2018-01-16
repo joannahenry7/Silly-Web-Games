@@ -446,7 +446,7 @@ pocket, and miraculously, you feel the stone in your real pocket!
 class FinalBossBattle(Room):
 
     def machinery(self, response):
-        win = random.randint(1,10)
+        win = 10
 
         if response == 'give up':
             return 'fail'
