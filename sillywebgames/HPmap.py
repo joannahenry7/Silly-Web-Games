@@ -259,6 +259,8 @@ class TrollRoom(Room):
 
     def machinery(self, response):
         if self.count > 3:
+            self.confused = False
+            self.count = 0
             return 'fail'
         elif response == 'throw':
             self.description += """
@@ -280,6 +282,8 @@ class TrollRoom(Room):
             club! You need to distract or confuse it first.
             """
         elif response == 'wingardium leviosa' and self.confused:
+            self.confused = False
+            self.count = 0
             return 'pass'
         elif response == 'alohomora':
             self.description += """
