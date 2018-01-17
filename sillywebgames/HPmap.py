@@ -217,8 +217,12 @@ class ChessRoom(Room):
 
         if self.pawn > 10:
             if self.count >= 5:
+                self.count = 0
+                self.pawn = 1
                 return 'pass'
             else:
+                self.count = 0
+                self.pawn = 1
                 return 'fail'
 
         return 'continue'
