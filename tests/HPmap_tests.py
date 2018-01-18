@@ -114,4 +114,36 @@ def test_potion():
     assert_equal(room3, potion_fail)
 
 def test_mirror():
-    pass
+    assert_equal(mirror_room.distracted, False)
+    path = mirror_room.machinery('talk')
+    room = mirror_room.go(path)
+    assert 'You try to distract Quirrell' in mirror_room.description
+    assert_equal(mirror_room.distracted, True)
+    assert_equal(room, mirror_room)
+    path1 = mirror_room.machinery('mirror')
+    room1 = mirror_room.go(path1)
+    assert_equal(mirror_room.distracted, False)
+    assert_equal(room1, mirror_win)
+
+    path2 = mirror_room.machinery('mirror')
+    room2 = mirror_room.go(path2)
+    assert_equal(room2, mirror_fail)
+    assert_equal(mirror_room.distracted, False)
+
+    room3 = mirror_win.go('*')
+    assert_equal(room3, final_boss_battle)
+
+def test_battle():
+    random.seed(2) # this seed makes first random.randint match winning number
+    path = final_boss_battle.machinery('keep fighting')
+    room = final_boss_battle.go(path)
+    assert_equal(room, final_win)
+
+    random.seed(0) # this seed makes random.randint not match winning number
+    path1 = final_boss_battle.machinery('keep fighting')
+    room1 = final_boss_battle.go(path1)
+    assert_equal(room1, final_boss_battle)
+    assert 'You keep fighting, even though' in final_boss_battle.description
+    path2 = final_boss_battle.machinery('give up')
+    room2 = final_boss_battle.go(path2)
+    assert_equal(room2, final_fail)
