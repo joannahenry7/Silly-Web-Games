@@ -61,6 +61,9 @@ class MonsterCave(Room):
 
     def machinery(self, response):
         if response == 'shoot' and self.moved:
+            self.moved = False
+            self.advantage = False
+            self.disadvantage = False
             return 'death1'
         elif response == 'shoot' and self.advantage:
             self.description += """
@@ -69,6 +72,7 @@ class MonsterCave(Room):
             """
             self.moved = True
         elif response == 'shoot' and self.disadvantage:
+            self.disadvantage = False
             return 'death1'
         elif response == 'shoot' and not self.advantage:
             self.description += """
@@ -87,8 +91,14 @@ class MonsterCave(Room):
             """
             self.moved = True
         elif response == 'play dead':
+            self.moved = False
+            self.advantage = False
+            self.disadvantage = False
             return 'death2'
         elif response == 'tunnel' and self.moved:
+            self.moved = False
+            self.advantage = False
+            self.disadvantage = False
             return 'pass'
         elif response == 'tunnel' and not self.moved:
             self.description += """
@@ -138,6 +148,9 @@ class SpikeCave(Room):
 
     def machinery(self, response):
         if self.count == 3:
+            self.count = 0
+            self.tired = False
+            self.seelever = False
             return 'death1'
         elif response == 'boulder' and not self.tired:
             self.description += """
@@ -145,6 +158,7 @@ class SpikeCave(Room):
             """
             self.tired = True
         elif response == 'boulder' and self.tired:
+            self.tired = False
             return 'death2'
         elif response == 'look':
             self.description += """
@@ -153,11 +167,17 @@ class SpikeCave(Room):
             """
             self.seelever = True
         elif response == 'give up':
+            self.seelever = False
+            self.tired = False
+            self.count = 0
             return 'death1'
         elif response == 'lasso':
             self.count += 1
             lasso_lever = random.randint(1,4)
             if lasso_lever == 1:
+                self.seelever = False
+                self.tired = False
+                self.count = 0
                 return 'pass'
             else:
                 self.description += """
@@ -248,9 +268,13 @@ class Bridge(Room):
         print_bridge()
 
         if self.count > 4:
+            self.bridge = []
+            self.count = 0
             if len(self.rotten) == 0:
+                self.rotten = []
                 return 'pass'
             else:
+                self.rotten = []
                 return 'death'
 
         self.count += 1
