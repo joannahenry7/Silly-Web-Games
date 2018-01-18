@@ -361,9 +361,17 @@ class PotionRoom(Room):
 
             return 'continue'
         else:
+            # reset init values for next playthrough
+            # this doesn't seem to affect play in actual game but is necessary
+            # to make tests pass when both apptests and HP_maptests are run
+            self.bottles = [1, 2, 3, 4, 5, 6, 7]
+            self.keep = []
+            self.eliminate = []
             if response == str(self.bottle):
+                self.bottle = 0
                 return 'pass'
             else:
+                self.bottle = 0
                 return 'fail'
 
 
@@ -412,6 +420,7 @@ class MirrorRoom(Room):
         elif response == 'mirror' and not self.distracted:
             return 'fail'
         elif response == 'mirror' and self.distracted:
+            self.distracted = False
             return 'pass'
 
 
