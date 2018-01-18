@@ -19,20 +19,41 @@ def test_snake_pit():
     assert_equal(room1, snake_death)
 
 def test_monster_cave():
-    # may need to rewrite these tests if change piratemap like HPmap was changed
-    # check shooting first turns on 'disadvantage' parameter
+    # check shooting before distracting turns on 'disadvantage'
     assert_equal(monster_cave.disadvantage, False)
     path = monster_cave.machinery('shoot')
     room = monster_cave.go(path)
     assert_equal(room, monster_cave)
     assert_equal(monster_cave.disadvantage, True)
+    assert 'it deflects the shots.' in monster_cave.description
 
-    # check screaming turns on 'advantage' parameter
+    # check screaming turns on 'advantage'
     assert_equal(monster_cave.advantage, False)
     path1 = monster_cave.machinery('scream')
     room1 = monster_cave.go(path1)
     assert_equal(room1, monster_cave)
     assert_equal(monster_cave.advantage, True)
+    assert 'The monster is momentarily startled!' in monster_cave.description
+
+    # check shooting after distracting (by screaming) makes monster move
+    assert_equal(monster_cave.moved, False)
+    path0 = monster_cave.machinery('shoot')
+    room0 = monster_cave.go(path0)
+    assert_equal(monster_cave.moved, True)
+    assert 'The monster was distracted' in monster_cave.description
+
+    # check getting through tunnel after monster has moved (this will reset to init values)
+    path01 = monster_cave.machinery('tunnel')
+    room01 = monster_cave.go(path01)
+    assert_equal(room01, spike_cave)
+
+    # check trying to go through tunnel before monster moves turns on 'disadvantage'
+    assert_equal(monster_cave.disadvantage, False)
+    assert_equal(monster_cave.moved, False)
+    path02 = monster_cave.machinery('tunnel')
+    room02 = monster_cave.go(path02)
+    assert_equal(monster_cave.disadvantage, True)
+    assert 't go through the tunnel yet,' in monster_cave.description
 
     # check poking monster makes it move
     assert_equal(monster_cave.moved, False)
@@ -41,20 +62,15 @@ def test_monster_cave():
     assert_equal(room2, monster_cave)
     assert_equal(monster_cave.moved, True)
 
-    # test failing by playing dead
-    path3 = monster_cave.machinery('play dead')
-    room3 = monster_cave.go(path3)
-    assert_equal(room3, monster_death2)
-
-    # test successfully getting past monster (monster is still moved from previous turn)
-    path4 = monster_cave.machinery('tunnel')
-    room4 = monster_cave.go(path4)
-    assert_equal(room4, spike_cave)
-
     # test failing by shooting monster after it moves
     path5 = monster_cave.machinery('shoot')
     room5 = monster_cave.go(path5)
     assert_equal(room5, monster_death1)
+
+    # test failing by playing dead
+    path3 = monster_cave.machinery('play dead')
+    room3 = monster_cave.go(path3)
+    assert_equal(room3, monster_death2)
 
 def test_spike_cave():
     # test failing by trying to move the boulder twice
@@ -95,4 +111,24 @@ def test_spike_cave():
     assert_equal(room6, spike_death1)
 
 def test_bridge():
-    pass
+    # check successfully crossing the bridge
+    guess_slats = []
+    random.seed(0)
+    for i in range(random.randint(1,3)):
+        guess_slats.append(random.randint(0,9))
+    while len(guess_slats) < 6: # have to do 6 go throughs even though the last one doesn't count
+        guess_slats.append(random.randint(0,9))
+
+    random.seed(0)
+    for slat in guess_slats:
+        path = bridge.machinery(str(slat))
+    room = bridge.go(path)
+    assert_equal(room, treasure_cave)
+    assert 'The slat gives way!' in bridge.description
+    assert 'The slat holds!' in bridge.description # for last two slats which will be wrong
+
+    # check failing to cross bridge
+    for i in range(6):
+        path1 = bridge.machinery('10')
+        room1 = bridge.go(path1)
+    assert_equal(room1, bridge_death)
